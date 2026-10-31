@@ -2,6 +2,7 @@
 <?php
 session_start();
 
+// Kiểm tra quyền Admin
 if (!isset($_SESSION["role"]) || $_SESSION["role"] != "admin") {
     header("Location: ../auth/login.php");
     exit();
@@ -15,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     exit();
 }
 
-$makhoa = $_POST["makhoa"] ?? "";
+$makhoa = trim($_POST["makhoa"] ?? "");
 
 if ($makhoa == "") {
     header("Location: faculty_list.php");
@@ -23,16 +24,23 @@ if ($makhoa == "") {
 }
 
 try {
-    $sql = "DELETE FROM khoa WHERE makhoa = ?";
 
+    // Xóa khoa
+    $sql = "DELETE FROM khoa WHERE makhoa = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$makhoa]);
 
-    header("Location: faculty_list.php?msg=deleted");
+    if ($stmt->rowCount() > 0) {
+        header("Location: faculty_list.php?msg=deleted");
+    } else {
+        header("Location: faculty_list.php?msg=error");
+    }
+
     exit();
 
 } catch (PDOException $e) {
+
+    // Không thể xóa nếu khoa đang có lớp liên kết
     header("Location: faculty_list.php?msg=error");
     exit();
 }
-?>

@@ -39,6 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tenlop = trim($_POST["tenlop"]);
     $makhoa = trim($_POST["makhoa"]);
 
+    // Giữ lại dữ liệu đã nhập
+    $lop["tenlop"] = $tenlop;
+    $lop["makhoa"] = $makhoa;
+
     if ($tenlop == "" || $makhoa == "") {
         $thongBao = "Vui lòng nhập đầy đủ thông tin!";
     } else {
@@ -60,56 +64,122 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sửa lớp học</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-    <h1>SỬA THÔNG TIN LỚP</h1>
+<body class="bg-gray-100 min-h-screen">
 
-    <p>
-        <a href="class_list.php">Quay lại danh sách lớp</a>
-    </p>
+    <div class="max-w-3xl mx-auto p-6">
 
-    <p style="color:red;">
-        <?php echo htmlspecialchars($thongBao); ?>
-    </p>
+        <!-- Tiêu đề -->
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">
+                Sửa thông tin lớp
+            </h1>
 
-    <form method="POST">
+            <p class="text-gray-500 mt-1">
+                Cập nhật thông tin lớp học trong hệ thống
+            </p>
+        </div>
 
-        <label>Mã lớp:</label><br>
-        <input type="text"
-               value="<?php echo htmlspecialchars($lop["malop"]); ?>"
-               disabled>
-        <br><br>
+        <!-- Form sửa lớp -->
+        <div class="bg-white rounded-xl shadow-md p-6">
 
-        <label>Tên lớp:</label><br>
-        <input type="text"
-               name="tenlop"
-               value="<?php echo htmlspecialchars($lop["tenlop"]); ?>"
-               required>
-        <br><br>
+            <form method="POST">
 
-        <label>Khoa:</label><br>
-        <select name="makhoa" required>
+                <!-- Mã lớp -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-medium mb-2">
+                        Mã lớp
+                    </label>
 
-            <?php foreach ($danhSachKhoa as $khoa) { ?>
+                    <input
+                        type="text"
+                        value="<?php echo htmlspecialchars($lop["malop"]); ?>"
+                        disabled
+                        class="w-full border border-gray-300 bg-gray-100 text-gray-500 rounded-lg px-4 py-2.5">
+                </div>
 
-                <option
-                    value="<?php echo htmlspecialchars($khoa["makhoa"]); ?>"
-                    <?php if ($khoa["makhoa"] == $lop["makhoa"]) echo "selected"; ?>>
+                <!-- Tên lớp -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-medium mb-2">
+                        Tên lớp
+                    </label>
 
-                    <?php echo htmlspecialchars($khoa["tenkhoa"]); ?>
+                    <input
+                        type="text"
+                        name="tenlop"
+                        value="<?php echo htmlspecialchars($lop["tenlop"]); ?>"
+                        required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Nhập tên lớp">
+                </div>
 
-                </option>
+                <!-- Khoa -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-medium mb-2">
+                        Khoa
+                    </label>
 
-            <?php } ?>
+                    <select
+                        name="makhoa"
+                        required
+                        class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-        </select>
-        <br><br>
+                        <?php foreach ($danhSachKhoa as $khoa) { ?>
 
-        <button type="submit">Cập nhật</button>
+                            <option
+                                value="<?php echo htmlspecialchars($khoa["makhoa"]); ?>"
+                                <?php if ($khoa["makhoa"] == $lop["makhoa"]) echo "selected"; ?>>
 
-    </form>
+                                <?php echo htmlspecialchars($khoa["tenkhoa"]); ?>
+
+                            </option>
+
+                        <?php } ?>
+
+                    </select>
+                </div>
+
+                <!-- Thông báo lỗi -->
+                <?php if ($thongBao != "") { ?>
+
+                    <div class="bg-red-100 text-red-700 border border-red-300 p-3 rounded-lg mb-5">
+                        <?php echo htmlspecialchars($thongBao); ?>
+                    </div>
+
+                <?php } ?>
+
+                <!-- Nút thao tác -->
+                <div class="flex flex-col sm:flex-row gap-3">
+
+                    <button
+                        type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium">
+
+                        Cập nhật
+
+                    </button>
+
+                    <a
+                        href="class_list.php"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2.5 rounded-lg font-medium text-center">
+
+                        Quay lại danh sách
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </body>
 </html>

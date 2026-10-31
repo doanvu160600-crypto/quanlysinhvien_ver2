@@ -8,6 +8,18 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "admin") {
     exit();
 }
 ?>
+<?php
+$tieuDeTrang = "Trang chủ sinh viên";
+include "../includes/header.php";
+?>
+
+<main class="max-w-6xl mx-auto p-6">
+
+    <!-- Nội dung trang đặt ở đây -->
+
+</main>
+
+<?php include "../includes/footer.php"; ?>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -152,7 +164,7 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] != "admin") {
                     <p class="text-slate-600">
                         Quản lý thông báo hệ thống.
                     </p>
-
+    
                     <p class="text-orange-600 font-medium mt-4">
                         Xem chi tiết →
                     </p>

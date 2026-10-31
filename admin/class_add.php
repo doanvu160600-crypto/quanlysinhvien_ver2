@@ -19,6 +19,11 @@ $danhSachKhoa = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $thongBao = "";
 
+// Lưu dữ liệu đã nhập khi có lỗi
+$malop = "";
+$tenlop = "";
+$makhoa = "";
+
 // Xử lý khi gửi form
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -57,54 +62,144 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm lớp học</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-    <h1>THÊM LỚP HỌC</h1>
+<body class="bg-gray-100 min-h-screen">
 
-    <p>
-        <a href="class_list.php">Quay lại danh sách lớp</a>
-    </p>
+    <div class="max-w-3xl mx-auto p-6">
 
-    <p style="color:red;">
-        <?php echo htmlspecialchars($thongBao); ?>
-    </p>
+        <!-- Tiêu đề -->
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">
+                Thêm lớp học
+            </h1>
 
-    <?php if (count($danhSachKhoa) > 0) { ?>
+            <p class="text-gray-500 mt-1">
+                Nhập thông tin để thêm lớp học mới vào hệ thống
+            </p>
+        </div>
 
-        <form method="POST">
+        <!-- Form thêm lớp -->
+        <div class="bg-white rounded-xl shadow-md p-6">
 
-            <label>Mã lớp:</label><br>
-            <input type="text" name="malop" required>
-            <br><br>
+            <form method="POST">
 
-            <label>Tên lớp:</label><br>
-            <input type="text" name="tenlop" required>
-            <br><br>
+                <!-- Mã lớp -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-medium mb-2">
+                        Mã lớp
+                    </label>
 
-            <label>Khoa:</label><br>
-            <select name="makhoa" required>
-                <option value="">-- Chọn khoa --</option>
+                    <input
+                        type="text"
+                        name="malop"
+                        value="<?php echo htmlspecialchars($malop); ?>"
+                        required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Nhập mã lớp">
+                </div>
 
-                <?php foreach ($danhSachKhoa as $khoa) { ?>
-                    <option value="<?php echo htmlspecialchars($khoa["makhoa"]); ?>">
-                        <?php echo htmlspecialchars($khoa["tenkhoa"]); ?>
-                    </option>
+                <!-- Tên lớp -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-medium mb-2">
+                        Tên lớp
+                    </label>
+
+                    <input
+                        type="text"
+                        name="tenlop"
+                        value="<?php echo htmlspecialchars($tenlop); ?>"
+                        required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Nhập tên lớp">
+                </div>
+
+                <!-- Khoa -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-medium mb-2">
+                        Khoa
+                    </label>
+
+                    <select
+                        name="makhoa"
+                        required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        <option value="">-- Chọn khoa --</option>
+
+                        <?php foreach ($danhSachKhoa as $khoa) { ?>
+
+                            <option
+                                value="<?php echo htmlspecialchars($khoa["makhoa"]); ?>"
+                                <?php echo ($makhoa == $khoa["makhoa"]) ? "selected" : ""; ?>>
+
+                                <?php echo htmlspecialchars($khoa["tenkhoa"]); ?>
+
+                            </option>
+
+                        <?php } ?>
+
+                    </select>
+                </div>
+
+                <!-- Thông báo lỗi -->
+                <?php if ($thongBao != "") { ?>
+
+                    <div class="bg-red-100 text-red-700 border border-red-300 p-3 rounded-lg mb-5">
+                        <?php echo htmlspecialchars($thongBao); ?>
+                    </div>
+
                 <?php } ?>
 
-            </select>
-            <br><br>
+                <!-- Nút thao tác -->
+                <?php if (count($danhSachKhoa) > 0) { ?>
 
-            <button type="submit">Thêm lớp</button>
+                    <div class="flex flex-col sm:flex-row gap-3">
 
-        </form>
+                        <button
+                            type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium">
 
-    <?php } else { ?>
+                            Thêm lớp
 
-        <p>Chưa có khoa. Vui lòng thêm khoa trước!</p>
+                        </button>
 
-    <?php } ?>
+                        <a
+                            href="class_list.php"
+                            class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2.5 rounded-lg font-medium text-center">
+
+                            Quay lại danh sách
+
+                        </a>
+
+                    </div>
+
+                <?php } else { ?>
+
+                    <div class="bg-yellow-100 text-yellow-700 border border-yellow-300 p-3 rounded-lg mb-4">
+                        Chưa có khoa. Vui lòng thêm khoa trước!
+                    </div>
+
+                    <a
+                        href="class_list.php"
+                        class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2.5 rounded-lg font-medium">
+
+                        Quay lại danh sách
+
+                    </a>
+
+                <?php } ?>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </body>
 </html>

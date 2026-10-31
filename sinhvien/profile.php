@@ -1,6 +1,7 @@
 
 <?php
 session_start();
+
 // Kiểm tra quyền sinh viên
 if (!isset($_SESSION["role"]) || $_SESSION["role"] != "sinhvien") {
     header("Location: ../auth/login.php");
@@ -34,72 +35,168 @@ if (!$sv) {
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thông tin cá nhân</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-    <h1>THÔNG TIN CÁ NHÂN</h1>
+<body class="bg-gray-100 min-h-screen">
 
-    <p>
-        <a href="index.php">Trang chủ</a> |
-        <a href="change_password.php">Đổi mật khẩu</a> |
-        <a href="notifications.php">Thông báo</a> |
-        <a href="../auth/logout.php">Đăng xuất</a>
-    </p>
+    <!-- Header -->
+    <header class="bg-blue-700 text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-6 py-5">
+            <h1 class="text-2xl md:text-3xl font-bold">
+                THÔNG TIN CÁ NHÂN
+            </h1>
 
-    <table border="1" cellpadding="10" cellspacing="0">
+            <p class="text-blue-100 mt-1">
+                Thông tin tài khoản sinh viên
+            </p>
+        </div>
+    </header>
 
-        <tr>
-            <th>Mã số sinh viên</th>
-            <td><?php echo htmlspecialchars($sv["mssv"]); ?></td>
-        </tr>
+    <main class="max-w-5xl mx-auto p-6">
 
-        <tr>
-            <th>Họ tên</th>
-            <td><?php echo htmlspecialchars($sv["hoten"]); ?></td>
-        </tr>
+        <!-- Thanh điều hướng -->
+        <div class="flex flex-wrap gap-4 mb-6">
+            <a href="index.php"
+               class="text-blue-600 hover:text-blue-800 font-medium">
+                Trang chủ
+            </a>
 
-        <tr>
-            <th>Ngày sinh</th>
-            <td><?php echo htmlspecialchars($sv["ngaysinh"]); ?></td>
-        </tr>
+            <a href="change_password.php"
+               class="text-blue-600 hover:text-blue-800 font-medium">
+                Đổi mật khẩu
+            </a>
 
-        <tr>
-            <th>Giới tính</th>
-            <td><?php echo htmlspecialchars($sv["gioitinh"]); ?></td>
-        </tr>
+            <a href="notifications.php"
+               class="text-blue-600 hover:text-blue-800 font-medium">
+                Thông báo
+            </a>
 
-        <tr>
-            <th>Lớp</th>
-            <td><?php echo htmlspecialchars($sv["tenlop"] ?? "Chưa có"); ?></td>
-        </tr>
+            <a href="../auth/logout.php"
+               class="text-red-600 hover:text-red-800 font-medium">
+                Đăng xuất
+            </a>
+        </div>
 
-        <tr>
-            <th>Khoa</th>
-            <td><?php echo htmlspecialchars($sv["tenkhoa"] ?? "Chưa có"); ?></td>
-        </tr>
+        <!-- Bảng thông tin -->
+        <div class="bg-white rounded-xl shadow-md p-6">
 
-        <tr>
-            <th>Email</th>
-            <td><?php echo htmlspecialchars($sv["email"]); ?></td>
-        </tr>
+            <h2 class="text-xl font-bold text-gray-800 mb-5">
+                Hồ sơ sinh viên
+            </h2>
 
-        <tr>
-            <th>Số điện thoại</th>
-            <td><?php echo htmlspecialchars($sv["sdt"]); ?></td>
-        </tr>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
 
-        <tr>
-            <th>Địa chỉ</th>
-            <td><?php echo htmlspecialchars($sv["diachi"]); ?></td>
-        </tr>
+                    <tbody class="divide-y divide-gray-200">
 
-        <tr>
-            <th>Trạng thái</th>
-            <td><?php echo htmlspecialchars($sv["trangthai"]); ?></td>
-        </tr>
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 w-1/3 text-gray-700">
+                                Mã số sinh viên
+                            </th>
+                            <td class="p-4 text-gray-800">
+                                <?php echo htmlspecialchars($sv["mssv"]); ?>
+                            </td>
+                        </tr>
 
-    </table>
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 text-gray-700">
+                                Họ tên
+                            </th>
+                            <td class="p-4 text-gray-800 font-medium">
+                                <?php echo htmlspecialchars($sv["hoten"]); ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 text-gray-700">
+                                Ngày sinh
+                            </th>
+                            <td class="p-4 text-gray-800">
+                                <?php echo htmlspecialchars($sv["ngaysinh"]); ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 text-gray-700">
+                                Giới tính
+                            </th>
+                            <td class="p-4 text-gray-800">
+                                <?php echo htmlspecialchars($sv["gioitinh"]); ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 text-gray-700">
+                                Lớp
+                            </th>
+                            <td class="p-4 text-gray-800">
+                                <?php echo htmlspecialchars($sv["tenlop"] ?? "Chưa có"); ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 text-gray-700">
+                                Khoa
+                            </th>
+                            <td class="p-4 text-gray-800">
+                                <?php echo htmlspecialchars($sv["tenkhoa"] ?? "Chưa có"); ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 text-gray-700">
+                                Email
+                            </th>
+                            <td class="p-4 text-gray-800">
+                                <?php echo htmlspecialchars($sv["email"]); ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 text-gray-700">
+                                Số điện thoại
+                            </th>
+                            <td class="p-4 text-gray-800">
+                                <?php echo htmlspecialchars($sv["sdt"]); ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 text-gray-700">
+                                Địa chỉ
+                            </th>
+                            <td class="p-4 text-gray-800">
+                                <?php echo htmlspecialchars($sv["diachi"]); ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-left bg-gray-50 p-4 text-gray-700">
+                                Trạng thái
+                            </th>
+                            <td class="p-4">
+                                <span class="inline-block bg-green-100 text-green-700
+                                             px-3 py-1 rounded-full text-sm">
+                                    <?php echo htmlspecialchars($sv["trangthai"]); ?>
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="text-center text-gray-500 py-6">
+        Hệ thống quản lý sinh viên
+    </footer>
 
 </body>
 </html>

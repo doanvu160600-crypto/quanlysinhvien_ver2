@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     exit();
 }
 
-$malop = $_POST["malop"] ?? "";
+$malop = trim($_POST["malop"] ?? "");
 
 if ($malop == "") {
     header("Location: class_list.php");
@@ -27,11 +27,15 @@ try {
 
     // Xóa lớp học
     $sql = "DELETE FROM lop WHERE malop = ?";
-
     $stmt = $conn->prepare($sql);
     $stmt->execute([$malop]);
 
-    header("Location: class_list.php?msg=deleted");
+    if ($stmt->rowCount() > 0) {
+        header("Location: class_list.php?msg=deleted");
+    } else {
+        header("Location: class_list.php?msg=error");
+    }
+
     exit();
 
 } catch (PDOException $e) {
@@ -40,4 +44,3 @@ try {
     header("Location: class_list.php?msg=error");
     exit();
 }
-?>

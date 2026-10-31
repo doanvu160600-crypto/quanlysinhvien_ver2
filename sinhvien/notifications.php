@@ -23,47 +23,120 @@ $danhSach = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Thông báo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo sinh viên</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-    <h1>THÔNG BÁO SINH VIÊN</h1>
+<body class="bg-gray-100 min-h-screen">
 
-    <p>
-        <a href="index.php">Trang chủ</a> |
-        <a href="profile.php">Thông tin cá nhân</a> |
-        <a href="change_password.php">Đổi mật khẩu</a> |
-        <a href="../auth/logout.php">Đăng xuất</a>
-    </p>
+    <!-- Header -->
+    <header class="bg-blue-700 text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-6 py-5">
+            <h1 class="text-2xl md:text-3xl font-bold">
+                THÔNG BÁO SINH VIÊN
+            </h1>
 
-    <?php if (count($danhSach) > 0) { ?>
+            <p class="text-blue-100 mt-1">
+                Cập nhật thông tin và thông báo từ nhà trường
+            </p>
+        </div>
+    </header>
 
-        <?php foreach ($danhSach as $tb) { ?>
+    <main class="max-w-5xl mx-auto p-6">
 
-            <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
+        <!-- Thanh điều hướng -->
+        <div class="flex flex-wrap gap-4 mb-6">
+            <a href="index.php"
+               class="text-blue-600 hover:text-blue-800 font-medium">
+                Trang chủ
+            </a>
 
-                <h3>
-                    <?php echo htmlspecialchars($tb["tieude"]); ?>
-                </h3>
+            <a href="profile.php"
+               class="text-blue-600 hover:text-blue-800 font-medium">
+                Thông tin cá nhân
+            </a>
 
-                <p>
-                    <?php echo nl2br(htmlspecialchars($tb["noidung"])); ?>
-                </p>
+            <a href="change_password.php"
+               class="text-blue-600 hover:text-blue-800 font-medium">
+                Đổi mật khẩu
+            </a>
 
-                <small>
-                    Ngày đăng:
-                    <?php echo htmlspecialchars($tb["created_at"]); ?>
-                </small>
+            <a href="../auth/logout.php"
+               class="text-red-600 hover:text-red-800 font-medium">
+                Đăng xuất
+            </a>
+        </div>
+
+        <!-- Tiêu đề danh sách -->
+        <div class="mb-6">
+            <h2 class="text-xl font-bold text-gray-800">
+                Danh sách thông báo
+            </h2>
+
+            <p class="text-gray-500 mt-1">
+                Các thông báo được sắp xếp theo thời gian mới nhất.
+            </p>
+        </div>
+
+        <!-- Nội dung thông báo -->
+        <?php if (count($danhSach) > 0): ?>
+
+            <div class="space-y-5">
+
+                <?php foreach ($danhSach as $tb): ?>
+
+                    <div class="bg-white rounded-xl shadow-md p-6
+                                border-l-4 border-blue-600">
+
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">
+                            <?php echo htmlspecialchars($tb["tieude"]); ?>
+                        </h3>
+
+                        <div class="text-gray-700 leading-relaxed whitespace-pre-line">
+                            <?php echo htmlspecialchars($tb["noidung"]); ?>
+                        </div>
+
+                        <div class="border-t border-gray-200 mt-5 pt-4">
+                            <p class="text-sm text-gray-500">
+                                Ngày đăng:
+                                <span class="font-medium">
+                                    <?php echo htmlspecialchars($tb["created_at"]); ?>
+                                </span>
+                            </p>
+                        </div>
+
+                    </div>
+
+                <?php endforeach; ?>
 
             </div>
 
-        <?php } ?>
+        <?php else: ?>
 
-    <?php } else { ?>
+            <!-- Chưa có thông báo -->
+            <div class="bg-white rounded-xl shadow-md p-10 text-center">
 
-        <p>Hiện chưa có thông báo nào.</p>
+                <div class="text-5xl mb-4">🔔</div>
 
-    <?php } ?>
+                <h3 class="text-lg font-bold text-gray-700">
+                    Hiện chưa có thông báo nào
+                </h3>
+
+                <p class="text-gray-500 mt-2">
+                    Các thông báo mới sẽ được hiển thị tại đây.
+                </p>
+
+            </div>
+
+        <?php endif; ?>
+
+    </main>
+
+    <footer class="text-center text-gray-500 py-6">
+        Hệ thống quản lý sinh viên
+    </footer>
 
 </body>
 </html>
